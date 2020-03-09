@@ -11,12 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired // Inject an instance of this interface, since it is an interface, it will create an anonymous class first
     EmployeeRepository empRepo;
+
+    @GetMapping
+    public String displayEmployees(Model model){
+        List<Employee>  employees = empRepo.findAll();
+        model.addAttribute("employees", employees);
+
+        return "employees/list-employees";
+    }
 
     @GetMapping("/new")
     public String displayEmployeeForm(Model model){
@@ -31,4 +41,5 @@ public class EmployeeController {
         empRepo.save(employee); // This handles saving to the Database
         return "redirect:/employees/new"; // It prevents duplicate submissions
     }
+
 }
