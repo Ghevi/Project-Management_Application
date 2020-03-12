@@ -1,9 +1,7 @@
 package com.ghevi.pma.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Employee {
@@ -16,6 +14,17 @@ public class Employee {
     private String lastName;
     private String email;
 
+    // @ManyToOne many employees can be assigned to one project
+    // Cascade, the query done on projects it's also done on children entities
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}, // Standard in the industry, dont use the REMOVE (if delete project delete also children) or ALL (because include REMOVE)
+               fetch = FetchType.LAZY)  // LAZY is industry standard it loads project into memory, EAGER load also associated entities so it slows the app, so we use LAZY and call child entities later
+    //@JoinColumn(name="project_id")  // Foreign key, creates a new table on Employee database
+    @JoinTable(name = "project_employee",  // Merge the two table using two foreign keys
+               joinColumns = @JoinColumn(name="employee_id"),
+               inverseJoinColumns = @JoinColumn(name="project_id"))
+
+    private List<Project> projects;
+
     public Employee(){
 
     }
@@ -25,6 +34,24 @@ public class Employee {
         this.lastName = lastName;
         this.email = email;
     }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    /* Replaced with List<Project>
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+    */
 
     public long getEmployeeId() {
         return employeeId;

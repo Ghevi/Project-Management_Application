@@ -1,9 +1,7 @@
 package com.ghevi.pma.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 //This is an entity that will be mapped to tables in the Database
 @Entity
@@ -19,6 +17,14 @@ public class Project {
 
     private String description;
 
+    // @ManyToOne(mappedBy = "project") // One project can have many employes assigned to it
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}, // Standard in the industry, dont use the REMOVE (if delete project delete also children) or ALL (because include REMOVE)
+                fetch = FetchType.LAZY)
+    @JoinTable(name = "project_employee",  // Merge the two table using two foreign keys
+               joinColumns = @JoinColumn(name="project_id"),
+               inverseJoinColumns = @JoinColumn(name="employee_id"))
+    private List<Employee> employees;
+
     public Project(){
 
     }
@@ -27,6 +33,14 @@ public class Project {
         this.name = name;
         this.stage = stage;
         this.description = description;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     public long getProjectId() {
