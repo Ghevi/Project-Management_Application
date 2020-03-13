@@ -1,6 +1,7 @@
 package com.ghevi.pma.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 //This is an entity that will be mapped to tables in the Database
@@ -8,7 +9,7 @@ import java.util.List;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // Hibernate annotation
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Hibernate annotation
     private long projectId; // Doesn't need to be in the constructor because we set it from the Database
 
     private String name;
@@ -33,6 +34,15 @@ public class Project {
         this.name = name;
         this.stage = stage;
         this.description = description;
+    }
+
+    // convenience method:
+
+    public void addEmployee(Employee emp){
+        if(employees==null){
+            employees = new ArrayList<>();
+        }
+        employees.add(emp);
     }
 
     public List<Employee> getEmployees() {

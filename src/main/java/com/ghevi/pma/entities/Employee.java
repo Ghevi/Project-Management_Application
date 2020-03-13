@@ -7,7 +7,7 @@ import java.util.List;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO for data insertion in the class projmanagapplication (the commented out part), IDENTITY let hibernate use the database id counter
     private long employeeId;
 
     private String firstName;
