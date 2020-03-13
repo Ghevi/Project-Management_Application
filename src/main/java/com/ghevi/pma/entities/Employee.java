@@ -7,8 +7,8 @@ import java.util.List;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO for data insertion in the class projmanagapplication (the commented out part), IDENTITY let hibernate use the database id counter
-    private long employeeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO for data insertion in the class projmanagapplication (the commented out part), IDENTITY let hibernate use the database id counter.
+    private long employeeId;                            // The downside of IDENTITY is that if we batch a lot of employees or projects it will be much slower to update them
 
     private String firstName;
     private String lastName;
