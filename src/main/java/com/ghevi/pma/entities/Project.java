@@ -9,7 +9,7 @@ import java.util.List;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Hibernate annotation
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_seq") // Hibernate annotation
     private long projectId; // Doesn't need to be in the constructor because we set it from the Database
 
     private String name;

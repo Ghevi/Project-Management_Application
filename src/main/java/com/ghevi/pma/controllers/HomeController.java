@@ -10,6 +10,7 @@ import com.ghevi.pma.entities.Employee;
 import com.ghevi.pma.entities.Project;
 import com.ghevi.pma.springExample.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,14 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
+    /*
     @Autowired
     Car car; // Error: Field car in com.ghevi.pma.controllers.HomeController required a bean of type 'com.ghevi.pma.springExample.Car' that could not be found.
+
+    */
+
+    @Value("${version}")
+    private String ver;
 
     @Autowired
     ProjectRepository proRepo;
@@ -32,6 +39,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String displayHome(@org.jetbrains.annotations.NotNull Model model) throws JsonProcessingException {
+
+        model.addAttribute("versionNumber", ver);
 
         Map<String, Object> map = new HashMap<>();
 
