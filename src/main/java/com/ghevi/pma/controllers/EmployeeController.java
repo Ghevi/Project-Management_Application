@@ -13,11 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Controller
+@Controller // Spring knows it needs to component scan this class and inject dependencies (every annotation in import org.springframework.stereotype.)
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired // Inject an instance of this interface, since it is an interface, it will create an anonymous class first
+    /*
+    // Constructor injection, we dont need @Autowired, we just need @Controller above
+    EmployeeRepository empRepoUsingField;
+    public EmployeeController(EmployeeRepository empRepo){
+        this.empRepoUsingField = empRepo;
+    }
+
+
+    // Setter injection
+    EmployeeRepository empRepoUsingSetterInjection;
+    @Autowired // this time we need an @Autowired
+    public void setEmpRepoUsingSetterInjection(EmployeeRepository empRepoUsingSetterInjection) {
+        this.empRepoUsingSetterInjection = empRepoUsingSetterInjection;
+    }
+     */
+
+    @Autowired // Field injection (also there are constructor and setter injection) : Inject an instance of this interface, since it is an interface, it will create an anonymous class first
     EmployeeRepository empRepo;
 
     @GetMapping

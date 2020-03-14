@@ -4,6 +4,10 @@ import com.ghevi.pma.dao.EmployeeRepository;
 import com.ghevi.pma.dao.ProjectRepository;
 import com.ghevi.pma.entities.Employee;
 import com.ghevi.pma.entities.Project;
+import com.ghevi.pma.springExample.Car;
+import com.ghevi.pma.springExample.Doors;
+import com.ghevi.pma.springExample.Engine;
+import com.ghevi.pma.springExample.Tires;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.ghevi.pma", "com.ghevi.utils"})
 public class ProjectManagementApplication {
 
 	@Autowired
@@ -26,7 +30,54 @@ public class ProjectManagementApplication {
 		SpringApplication.run(ProjectManagementApplication.class, args);
 	}
 
+	// every where we use autwired for a Car car it will create an istance with this method that will be injected in Car car;
+	/* Moved to manufactureConfig
+
+	Down is done again cuz i watched the video 2 times xd
+
+	@Bean
+	public Car newCar(){
+		Engine e = new Engine();
+		Doors d = new Doors();
+		Tires t = new Tires();
+
+		return  new Car(e, d, t);
+	}*/
+
+
 	/* This pre populate the app with data manually, but it belongs in a data file
+
+	Spring scan all the children packages of com.x.x, this is called Spring Context
+
+	// This is how we would set up the @Autowired car, we could write @Autowired then Car car below it, and
+	// Spring will initiate this class. The Crud interfaces are already defined in Sring so we dont need to define them like this car.
+	// This is called Dependency Injection
+	@Bean
+	public Car newCar(){
+		Engine e = new Engine();
+		Doors e = new Doors();
+		Tires e = new Tires();
+
+		return new Car(e, d, t);
+	}
+
+	Or a better way is to create a Configuration class inside the Car classes package:
+
+	@Configuration
+	public class ManufactureConfig {
+			@Bean
+			public Car newCar(){
+				Engine e = new Engine();
+				Doors e = new Doors();
+				Tires e = new Tires();
+
+				return new Car(e, d, t);
+			}
+	}
+
+
+
+
 	@Bean
 	CommandLineRunner runner(){
 		return args -> {

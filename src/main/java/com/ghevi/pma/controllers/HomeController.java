@@ -8,6 +8,7 @@ import com.ghevi.pma.dto.ChartData;
 import com.ghevi.pma.dto.EmployeeProject;
 import com.ghevi.pma.entities.Employee;
 import com.ghevi.pma.entities.Project;
+import com.ghevi.pma.springExample.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +22,16 @@ import java.util.Map;
 public class HomeController {
 
     @Autowired
+    Car car; // Error: Field car in com.ghevi.pma.controllers.HomeController required a bean of type 'com.ghevi.pma.springExample.Car' that could not be found.
+
+    @Autowired
     ProjectRepository proRepo;
 
     @Autowired
     EmployeeRepository empRepo;
 
     @GetMapping("/")
-    public String displayHome(Model model) throws JsonProcessingException {
+    public String displayHome(@org.jetbrains.annotations.NotNull Model model) throws JsonProcessingException {
 
         Map<String, Object> map = new HashMap<>();
 
