@@ -4,6 +4,7 @@ import com.ghevi.pma.dao.EmployeeRepository;
 import com.ghevi.pma.dao.ProjectRepository;
 import com.ghevi.pma.entities.Employee;
 import com.ghevi.pma.entities.Project;
+import com.ghevi.pma.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,14 +32,20 @@ public class EmployeeController {
     public void setEmpRepoUsingSetterInjection(EmployeeRepository empRepoUsingSetterInjection) {
         this.empRepoUsingSetterInjection = empRepoUsingSetterInjection;
     }
-     */
+
 
     @Autowired // Field injection (also there are constructor and setter injection) : Inject an instance of this interface, since it is an interface, it will create an anonymous class first
     EmployeeRepository empRepo;
 
+     */
+
+    @Autowired
+    EmployeeService empService;
+
+
     @GetMapping
     public String displayEmployees(Model model){
-        List<Employee>  employees = empRepo.findAll();
+        List<Employee>  employees = empService.getAll();
         model.addAttribute("employees", employees);
 
         return "employees/list-employees";
@@ -54,7 +61,7 @@ public class EmployeeController {
 
     @PostMapping("/save")
     public String createEmployee(Employee employee, Model model){
-        empRepo.save(employee); // This handles saving to the Database
+        empService.save(employee); // This handles saving to the Database
         return "redirect:/employees/new"; // It prevents duplicate submissions
     }
 
