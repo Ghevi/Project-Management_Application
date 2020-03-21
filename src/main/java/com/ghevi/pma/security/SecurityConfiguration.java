@@ -66,10 +66,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeRequests()
                     // This order is important we cant say permitAll() first because otherwise everyone have access to all
-                    .antMatchers("/projects/new").hasRole("ADMIN") // Only ADMINs can create a new project
-                    .antMatchers("/projects/save").hasRole("ADMIN")
-                    .antMatchers("/employees/new").hasRole("ADMIN")
-                    .antMatchers("/employees/save").hasRole("ADMIN")
+                    .antMatchers("/projects/new").hasAnyAuthority("ADMIN") // Only ADMINs can create a new project
+                    .antMatchers("/projects/save").hasAnyAuthority("ADMIN") // hasRole needs to be ROLE_ADMIN when doing set role='' in the database
+                    .antMatchers("/employees/new").hasAnyAuthority("ADMIN") // this just ADMIN
+                    .antMatchers("/employees/save").hasAnyAuthority("ADMIN")
                     // .antMatchers("/h2_console./**").permitAll()
                     // .antMatchers("/").authenticated().and().formLogin(); // everyone can go to the homepage endpoint
                     .antMatchers("/", "/**").permitAll()
@@ -80,5 +80,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Just for having the h2 console working before
         // httpSecurity.csrf().disable();
         // httpSecurity.headers().frameOptions().disable();
+
+        /* Setting roles query
+        update user_accounts
+        set role = 'ADMIN'
+        where username = 'tazman'
+        */
+
     }
 }

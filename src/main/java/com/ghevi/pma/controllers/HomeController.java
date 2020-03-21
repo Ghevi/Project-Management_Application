@@ -37,8 +37,8 @@ public class HomeController {
     @Autowired
     EmployeeRepository empRepo;
 
-    @GetMapping("/")
-    public String displayHome(@org.jetbrains.annotations.NotNull Model model) throws JsonProcessingException {
+    @GetMapping("/")  // Create routing for home page
+    public String displayHome(@org.jetbrains.annotations.NotNull Model model) throws JsonProcessingException { // Use the model to send data to the view
 
         model.addAttribute("versionNumber", ver);
 
@@ -62,7 +62,7 @@ public class HomeController {
         model.addAttribute("employeesListProjectsCount", projectCount);
 
 
-        return "main/home";
+        return "/main/home";
     }
 
 }

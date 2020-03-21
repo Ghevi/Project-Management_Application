@@ -29,6 +29,8 @@
                 </option>
             </select>
 
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
             <button type="submit">Create Project</button> <!-- "submit" send the form to /projects/save -->
 
         </form>

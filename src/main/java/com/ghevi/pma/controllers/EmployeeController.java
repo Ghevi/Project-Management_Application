@@ -62,7 +62,7 @@ public class EmployeeController {
     @PostMapping("/save")
     public String createEmployee(Employee employee, Model model){
         empService.save(employee); // This handles saving to the Database
-        return "redirect:/employees/new"; // It prevents duplicate submissions
+        return "redirect:/employees"; // It prevents duplicate submissions
     }
 
 }
