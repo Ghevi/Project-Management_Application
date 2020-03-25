@@ -1,6 +1,12 @@
 package com.ghevi.pma.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
+
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -11,8 +17,17 @@ public class Employee {
     @SequenceGenerator(name = "employee_generator", sequenceName = "employee_seq", allocationSize = 1)
     private long employeeId;                            // The downside of IDENTITY is that if we batch a lot of employees or projects it will be much slower to update them, we use SEQUENCE now that we have schema.sql (spring does batch update)
 
+    @NotNull
+    @Size(min=2, max=50)
     private String firstName;
+
+    @NotNull
+    @Size(min=1, max=50)
     private String lastName;
+
+    @NotNull // Client level annotation (where it would get an error)
+    @Email
+    @Column(unique = true) // Annotation at database level
     private String email;
 
     // @ManyToOne many employees can be assigned to one project
@@ -24,6 +39,7 @@ public class Employee {
                joinColumns = @JoinColumn(name="employee_id"),
                inverseJoinColumns = @JoinColumn(name="project_id"))
 
+    @JsonIgnore
     private List<Project> projects;
 
     public Employee(){

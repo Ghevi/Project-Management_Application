@@ -64,6 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // Authorization (what he can do)
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
+        httpSecurity.csrf().disable(); // remove for production
         httpSecurity.authorizeRequests()
                     // This order is important we cant say permitAll() first because otherwise everyone have access to all
                     .antMatchers("/projects/new").hasAnyAuthority("ADMIN") // Only ADMINs can create a new project
